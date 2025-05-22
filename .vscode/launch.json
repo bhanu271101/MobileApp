@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "VideoXApplication",
+            "request": "launch",
+            "mainClass": "com.example.memo.VideoXApplication",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "VideoXApplication",
+            "request": "launch",
+            "mainClass": "com.example.memo.VideoXApplication",
+            "projectName": "memo"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MemoApplication<memo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.memo.MemoApplication",
+            "projectName": "memo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
