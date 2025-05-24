@@ -99,6 +99,12 @@ public class UserController {
 
     }
 
+    @GetMapping("/cronjob")
+    public String dummyForCronjob()
+    {
+        return "Cronjob ran successfully";
+    }
+
     @PostMapping("/resetPassword")
     public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) 
     {
