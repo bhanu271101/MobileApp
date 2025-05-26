@@ -29,7 +29,12 @@ public class VerificationToken {
     
     
 
-    public int getId() {
+    public VerificationToken() {
+		super();
+	}
+
+
+	public int getId() {
 		return id;
 	}
 
