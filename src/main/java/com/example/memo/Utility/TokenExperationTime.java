@@ -17,7 +17,6 @@ public class TokenExperationTime {
     public static int calculateDifferenceInTime(LocalDateTime time1,LocalDateTime time2)
     {
         Duration duration=Duration.between(time1, time2).abs();
-        System.out.println(duration);
 
         if(duration.toSeconds()>1)
         {
