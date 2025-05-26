@@ -19,6 +19,7 @@ import com.example.memo.Utility.PasswordValidation;
 import com.example.memo.Utility.PhoneNumberValidation;
 import com.example.memo.Utility.TokenExperationTime;
 
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 
 import com.example.memo.Exception.*;
@@ -75,7 +76,7 @@ public class UserService {
 
  
 
-    public UserDto registerService(UserRegisterationDto userRegisterationDto)
+    public UserDto registerService(UserRegisterationDto userRegisterationDto) throws MessagingException
     {
 
         if(userRegisterationDto==null
@@ -105,7 +106,7 @@ public class UserService {
 
         String URL="https://mobileapp-4.onrender.com/user/validateUser?token="+token;
 
-        mailService.sendEmail(savedUser.getEmail(),"User Verification","Please click on this URl to verfy "+ URL);
+        mailService.sendEmail(savedUser.getEmail(),"User Verification",savedUser.getName(),"Please click on this URl to verfy "+ URL);
         return userMapper.userToUserDto(user);
         
     }
@@ -121,6 +122,7 @@ public class UserService {
     @Transactional
     public String validateVerificationToken(String token)
     {
+        
         VerificationToken verificationToken=verificationTokenRepository.findByToken(token);
         if(verificationToken==null)
         {
@@ -128,12 +130,15 @@ public class UserService {
         }
         else
         {
-            System.out.println(verificationToken.getExpirationTime());
-            System.out.println(TokenExperationTime.calculateDifferenceInTime(verificationToken.getExpirationTime(),LocalDateTime.now()));
+
             User user=verificationToken.getUser();
 
             if(TokenExperationTime.calculateDifferenceInTime(verificationToken.getExpirationTime(),LocalDateTime.now())==1)
             {
+                if(user.isEnabled()==true)
+                {
+                    return "User already verified";
+                }
                 user.setEnabled(true);
                 userRepository.save(user);
                 return "User verification successful";
@@ -178,7 +183,7 @@ public class UserService {
     }
 
 
-    public String resetVerificationToken(String email) 
+    public String resetVerificationToken(String email) throws MessagingException 
     {
         User user=userRepository.findByEmail(email);
         if(user!=null)
@@ -188,7 +193,7 @@ public class UserService {
             saveVerificationToken(user, token);
             String URL="http://mobileapp-4.onrender.com/user/validateUser?token="+token;
 
-            mailService.sendEmail(user.getEmail(),"User Registeration","Please click on this URl to verfy "+ URL);
+            mailService.sendEmail(user.getEmail(),"User Registeration",user.getName(),"Please click on this URl to verfy "+ URL);
             return "Reset verificatoin token sent successfully check you mail";
         }
         else

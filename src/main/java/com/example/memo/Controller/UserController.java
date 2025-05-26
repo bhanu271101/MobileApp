@@ -24,6 +24,7 @@ import com.example.memo.Entity.User;
 import com.example.memo.Repository.UserRepository;
 import com.example.memo.Service.UserService;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 
 
@@ -61,7 +62,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> registerUser(@RequestBody UserRegisterationDto userRegisterationDto)
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserRegisterationDto userRegisterationDto) throws MessagingException
     {
         UserDto dto=userService.registerService(userRegisterationDto);
         return new ResponseEntity<>(dto,HttpStatus.CREATED);
@@ -92,7 +93,7 @@ public class UserController {
 
 
     @PostMapping("/resetToken")
-    public ResponseEntity<?> resetVerificationToken(@RequestParam String email) 
+    public ResponseEntity<?> resetVerificationToken(@RequestParam String email) throws MessagingException 
     {
         String message=userService.resetVerificationToken(email);
         return new ResponseEntity<>(message,HttpStatus.CREATED);

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class TokenExperationTime {
 
-    private static final long Experation_time=10;
+    private static final long Experation_time=20;
 
     public static LocalDateTime calculateExperationTome()
     {
