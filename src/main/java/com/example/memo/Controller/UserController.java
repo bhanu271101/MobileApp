@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,8 +81,12 @@ public class UserController {
     @GetMapping("/validateUser")
     public ResponseEntity<?> validateRegistredUser(@RequestParam String token)
     {
-        String message=userService.validateVerificationToken(token);
-        return new ResponseEntity<>(message,HttpStatus.OK);
+        String result =userService.validateVerificationToken(token);
+     // Return simple styled HTML page
+    String html = "<html><body style='font-family:sans-serif;text-align:center;margin-top:50px;'>" +
+                  "<h2>" + result + "</h2>" +
+                  "</body></html>";
+    return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(html);
     }
 
     @PostMapping("/changePassword")
