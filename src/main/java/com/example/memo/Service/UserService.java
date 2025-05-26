@@ -211,12 +211,20 @@ public class UserService {
         )
         throw new NullPointerException("user details should not be null");
 
+        
         if(!resetPasswordDTO.getNewPassword().equals(resetPasswordDTO.getMatchingPassword()))
         throw new PasswordNotMatchingException("both password and confirm password should be same");
         
         User user=userRepository.findByEmail(resetPasswordDTO.getEmail());
-        user.setPassword(resetPasswordDTO.getNewPassword());
-        userRepository.save(user);
+        if(user!=null)
+        {
+             user.setPassword(resetPasswordDTO.getNewPassword());
+            userRepository.save(user);
+        }
+        else{
+            throw new UserNotFoundException("User doesn't exist please register");
+        }
+       
 
         return "Password reset successful";
 
