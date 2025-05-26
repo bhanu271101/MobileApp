@@ -33,8 +33,7 @@ public class UserService {
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
 
-    @Autowired
-    private InfoService infoService;
+   
 
     @Autowired
     private EmailService mailService;
@@ -59,22 +58,19 @@ public class UserService {
             User user=userRepository.findByEmail(loginDTO.getEmail());
             if(user!=null && user.getPassword().equals(loginDTO.getPassword()))
             {
-                return "Login successful";
-
-                // if(user.isEnabled()==true)
-                // {                    
-                //     return "Login successful";
-                // }
-                // else{
-                //     return "please verify the user";
-                // }
-               
+                 if(user.isEnabled()==true)
+                 {                    
+                     return "Login successful";
+                 }
+                 else{
+                     return "please verify the user";
+                 }
                 
             }
             
            
         }
-        return "Login details should not be empty";
+        return "Wrong username or password";
     }
 
  
@@ -107,9 +103,9 @@ public class UserService {
         User savedUser= userRepository.save(user);
         saveVerificationToken(savedUser, token);
 
-        //String URL="http://"+infoService.getServer()+":"+infoService.getPortNumber()+"/user/validateUser?token="+token;
+        String URL="https://mobileapp-4.onrender.com/user/validateUser?token="+token;
 
-       // mailService.sendEmail(savedUser.getEmail(),"User Registeration","Please click on this URl to verfy "+ URL);
+        mailService.sendEmail(savedUser.getEmail(),"User Verification","Please click on this URl to verfy "+ URL);
         return userMapper.userToUserDto(user);
         
     }
@@ -190,7 +186,7 @@ public class UserService {
             
             String token= UUID.randomUUID().toString();
             saveVerificationToken(user, token);
-            String URL="http://"+infoService.getServer()+":"+infoService.getPortNumber()+"/user/validateUser?token="+token;
+            String URL="http://mobileapp-4.onrender.com/user/validateUser?token="+token;
 
             mailService.sendEmail(user.getEmail(),"User Registeration","Please click on this URl to verfy "+ URL);
             return "Reset verificatoin token sent successfully check you mail";

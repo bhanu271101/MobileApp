@@ -30,7 +30,6 @@ com\example\memo\DTO\UserDto.class
 com\example\memo\Exception\GlobalException.class
 com\example\memo\Exception\SessionTimeoutException.class
 com\example\memo\DTO\LoginDTO.class
-com\example\memo\Service\InfoService.class
 com\example\memo\DTO\UserRegisterationDto.class
 com\example\memo\Controller\AddressController.class
 com\example\memo\DTO\AddressDTO.class
